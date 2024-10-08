@@ -53,9 +53,9 @@ REM List of supported formats for 7-Zip
 echo.
 echo Select the output format:
 echo 1. ZIP (.zip)
-echo 2. TAR (.tar)
-echo 3. TAR.BZ2 (.tar.bz2)
-echo 4. GZIP (.tar.gz)
+echo 2. TAR.BZ2 (.tar.bz2)
+echo 3. GZIP (.tar.gz)
+echo 4. TAR (.tar)
 echo 5. Exit
 set /p "choice=Enter your choice (1-5): "
 
@@ -64,12 +64,12 @@ set "command="
 if "%choice%"=="1" (
     set "extension=.zip"
     set "command= a"
-) else if "%choice%"=="2" (
+) else if "%choice%"=="4" (
     set "extension=.tar"
     set "command= a -ttar"
-) else if "%choice%"=="3" (
+) else if "%choice%"=="2" (
     set "extension=.tar.bz2"
-) else if "%choice%"=="4" (
+) else if "%choice%"=="3" (
     set "extension=.tar.gz"
 ) else if "%choice%"=="5" (
     echo Exiting.
