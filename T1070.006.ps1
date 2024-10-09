@@ -1,8 +1,7 @@
 # set-executionpolicy remotesigned
 
 param (
-    [string]$file1,
-    [string]$file2 = $null
+    [string]$file1
 )
 
 if (-not (Test-Path -Path $file1)) {
@@ -10,24 +9,31 @@ if (-not (Test-Path -Path $file1)) {
     exit
 }
 
-if ($file2 -ne $null) {
-    if (-not (Test-Path -Path $file2)) {
-        Write-Host "File '$file2' does not exist."
+# Prompt the user to select the action
+$actionChoice = Read-Host "What do you want to do? Enter 'C' for Clone timestamps, 'M' for Modify timestamps manually"
+
+if ($actionChoice.ToUpper() -eq 'C') {
+    # Prompt the user for the source file to clone timestamps from
+    $sourceFile = Read-Host "Enter the path to the source file"
+
+    if (-not (Test-Path -Path $sourceFile)) {
+        Write-Host "Source file '$sourceFile' does not exist."
         exit
     }
 
-    # Get the timestamps of the second file
-    $file2CreationTime = (Get-Item $file2).CreationTime
-    $file2LastWriteTime = (Get-Item $file2).LastWriteTime
-    $file2LastAccessTime = (Get-Item $file2).LastAccessTime
+    # Get the timestamps of the source file
+    $sourceCreationTime = (Get-Item $sourceFile).CreationTime
+    $sourceLastWriteTime = (Get-Item $sourceFile).LastWriteTime
+    $sourceLastAccessTime = (Get-Item $sourceFile).LastAccessTime
 
-    # Set the timestamps of the first file to match the second file
-    (Get-Item $file1).CreationTime = $file2CreationTime
-    (Get-Item $file1).LastWriteTime = $file2LastWriteTime
-    (Get-Item $file1).LastAccessTime = $file2LastAccessTime
+    # Set the timestamps of the target file to match the source file
+    (Get-Item $file1).CreationTime = $sourceCreationTime
+    (Get-Item $file1).LastWriteTime = $sourceLastWriteTime
+    (Get-Item $file1).LastAccessTime = $sourceLastAccessTime
 
-    Write-Host "Timestamps of '$file1' have been updated to match '$file2'."
-} else {
+    Write-Host "Timestamps of '$file1' have been updated to match '$sourceFile'."
+}
+elseif ($actionChoice.ToUpper() -eq 'M') {
     # Prompt the user to select which timestamp to change
     $timestampChoice = Read-Host "Which timestamp do you want to change? Enter 'C' for Creation, 'M' for Modification, 'A' for Last Access"
 
@@ -55,4 +61,7 @@ if ($file2 -ne $null) {
             Write-Host "Invalid choice. Please enter 'C', 'M', or 'A'."
         }
     }
+}
+else {
+    Write-Host "Invalid choice. Please enter 'C' or 'M'."
 }
