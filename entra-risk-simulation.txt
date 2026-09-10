@@ -1,0 +1,4 @@
+"AadClientId": "3662bd46-2603-4ef5-b6a9-23b0ff3ba2f5",
+"AadSecret": "hkF8Q~mQcrVBqoziSoDvl7E16QLYp.UwvWr82c8.",
+"AadTenantDomain": "hcahealthcare.onmicrosoft.com",
+"AadTenantId": "335a6d75-c3eb-4b1a-ac08-d49338816ca0",
